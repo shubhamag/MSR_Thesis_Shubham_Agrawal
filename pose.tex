@@ -1,0 +1,12 @@
+
+\section{Introduction}
+Most multi-view face reconstruction methods have traditionally relied on pre-calibrated cameras (a studio setup) or used landmark trackers for estimating camera pose relative to a geometric prior, such as a template mesh or 3DMM. However, landmark trackers are less than reliable beyond a small angle from the front of the face, which reduces their utility for camera pose estimation. For our method, we aim to get sub-pixel accurate camera pose estimates using recent advances in direct methods for visual SLAM, based on the seminal work by Engel \etal \cite{engel2018direct,engel2014lsd}. Direct methods are particularly effective for faces, where a lot of corner points are not present for feature point detection and matching.
+
+\section{Our Approach}
+We take advantage of the fact that the input is a single continuous video sequence. We use the geometric bundle adjustment based initialization scheme proposed in \cite{ham2017monocular} to get relative pose estimates for an initial baseline distance. Then, a LK tracker is used to track the camera frames in the video, and a keyframe is selected once the camera moves a certain baseline distance. The set of keyframe camera poses are optimized using photometric bundle adjustment to maximize photometric consistency between frames.
+
+As in \cite{engel2018direct}, PBA is a joint optimization of all model parameters, including camera poses, the intrinsics, and the radial distortion parameters. For a typical sequence, 50-80 keyframes with accurately known camera poses are obtained.
+
+Independently of pose estimation, we use the publicly available Openface toolkit \cite{baltrusaitis2018openface} for facial landmark detection. We fit the Basel 3DMM \cite{blanz1999morphable} to these landmarks and align it with the coordinate system of the keyframes. We use this coarse mesh in the next stage.
+
+The advantages of decoupling camera pose estimation and face alignment are three-fold: 1) Robustness to landmark tracker failures, which, despite many recent advances, is not robust at large angles  2) By not relying on the estimated coarse mesh for registering camera poses, errors in the shape estimation do not propagate to the camera poses. 3) Purely using photometric consistency allows us to achieve sub-pixel accuracy in estimating camera poses. 

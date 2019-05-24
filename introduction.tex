@@ -1,0 +1,34 @@
+
+\section{Motivation}
+Reconstructing faces has been a problem of great interest in computer vision and graphics with applications in a wide variety of domains, ranging from animation \cite{ichim2015dynamic}, entertainment \cite{saito2016real}, genetics, bio-metrics, medical procedures, and more recently, augmented and virtual reality. Despite the long body of work, 3D face reconstruction still remains an open and challenging problem, primarily because of the high level of detail required owing to our sensitivity to facial features. Even slight anomalies in the reconstructions can make the output look unrealistic and hence, the accuracy of reconstructed face models is of utmost importance.
+
+
+While accurate scans of facial geometry can be obtained using structured light or laser scanners, these are often prohibitively expensive, typically costing tens of thousands of dollars.
+The seminal work of Beeler \etal \cite{beeler2010high} showed that a studio setup of cameras could be used to capture face geometry accurately. Since then, a variety of work has focused on using Photometric stereo or Multi-view stereo techniques in studio settings for face reconstruction and performance capture \cite{cao2018sparse, fyffe2017multi}. 
+Although accurate in their reconstructions, these studio setups are not trivial to set up, typically requiring a calibrated camera setup along with controlled lighting and backgrounds. This makes them infeasible for capturing `in-the-wild' subject faces in unconstrained settings, for instance, an end user of a virtual reality app.
+
+To tackle the problem of unconstrained 3D face reconstruction, the community has mostly relied on three-dimensional morphable models (3DMMs)~\cite{blanz1999morphable}. 3DMMs are low-dimensional linear sub-spaces of faces typically constructed using a small set of ground truth 3D scans that enable rapid approximation of face geometry, classically through a non-linear optimization over appearance and landmarks. Deep neural nets have more recently been used to fit morphable models using a single image. Generalization to in-the-wild images is often a concern for these methods. While the results are often visually appealing with texture, the reconstructions suffer from high geometric inaccuracies.
+
+With the limited availability of 3D data for faces, using geometric cues from multiple views to improve the accuracy of reconstruction becomes necessary. Previous work has shown that a single template or 3DMM can be optimized using constraints from multiple views, using techniques like photometric stereo \cite{roth2015unconstrained} or advances in automatic keypoint detection \cite{huber2016multiresolution}.
+Recently, Hernandez \etal \cite{hernandez2017accurate} proposed an elegant multi-view constrained structure-from-motion scheme that explicitly optimized the coefficients of a 3DMM shape to recover face geometry. However, the output still remains constrained to the underlying training data and low capacity of the 3DMM. This greatly limits its expressivity and is particularly undesirable for medical or bio-metric usage. 
+
+
+In this work, we attempt to answer the question ``What's the most accurate reconstruction an end-user can obtain, without needing access to special equipment or studio setups?". To this end, we propose a pipeline for highly accurate yet robust face geometry capture, requiring nothing but a smartphone. We leverage recent advances in the fields of object and keypoint detection, direct methods for visual SLAM, and higher frame-rate capture functionality available on modern smartphones. This allows us to incorporate multi-view consistency, landmark, edge and silhouette constraints into a single optimization framework. We also explicitly train a model for ear detection to incorporate ear landmarks, an area that has almost entirely been ignored in face reconstruction works. This enables us to achieve state-of-the-art geometric accuracy among unconstrained face reconstruction techniques. 
+
+\section{Challenges}
+
+
+
+\section{Contributions}
+
+Our contributions are two-fold. First, we propose a 3D face reconstruction algorithm that takes a single video of a subject's face and reconstructs their face geometry, making high fidelity reconstructions accessible to users for downstream tasks like animation, printing, genetic analysis/modeling and biometrics. The reconstructed meshes have semantic correspondence and consistent topology, without being constrained to any model subspace.  Second, we release a dataset 200 video sequences of 100 individuals shot at 120fps, where we collect two sequences per subject, under varying lighting conditions. 
+
+
+
+\section{Thesis Outline}
+
+The thesis is organized as follows. In Chapter 2, explore and describe the previous work done in the field of 3D reconstruction of faces. We divide the works into a few broad categories, and analyze the pros and cons of each strategy, and where the current state-of-the-art is.\\ 
+Chapter 3 describes our Pose estimation strategy, to recover poses from the uncalibrated video clip. \\
+In Chapter 4 we talk about the Multi-view stereo problem, and the algorithm we use to recover 3D structure of the face in the form of point cloud. \\
+Chapter 5 details our mesh-fitting algorithm, which is key in capturing face geometry in a semantic mesh while being robust to noise.\\
+In Chapter 7 we discuss quantitative and qualitative evaluation of our reconstruction pipeline.
